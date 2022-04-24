@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Item
 
 # Create your views here.
 
+
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    items = Item.objects.order_by('-time_added')
+    context = {'items': items}
+    return render(request, 'shoppingSiteApp/index.html', context)
