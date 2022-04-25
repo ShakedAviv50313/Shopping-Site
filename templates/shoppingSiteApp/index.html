@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en" class="h-100">
   <head>
     <meta charset="utf-8" />
@@ -22,7 +23,7 @@
     <header>
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">דף הבית</a>
+          <a class="navbar-brand" href={%url 'index'%}>דף הבית</a>
           <ul class="navbar-nav me-auto mb-2 mb-md-0">
             <li class="nav-item">
               <a class="nav-link active" href="#">דף בית</a>
@@ -56,65 +57,74 @@
           style="text-align: center; border-bottom: 1px solid black"
         >
           <h1 class="mt-5">מוצרים ועוד</h1>
-          <p class="lead">כאן תוכלו למצוא את כל המוצרים אשר בלה בלה</p>
+          <p class="lead">כאן תוכלו למצוא מספר מוצרים לבית</p>
         </div>
     </main>
 
 
-
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-        <span class="fs-4">Sidebar</span>
+  <div class="row" style="direction: flex; align-items: space-between;">
+  <div class="col-2">
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="direction: rtl; float: right; margin-top: 3em;">
+      <a href="/" class="link-dark text-decoration-none">
+        קטגוריות
       </a>
       <hr>
       <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-          <a href="#" class="nav-link active" aria-current="page">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
-            Home
+        <li>
+          <a href="{%url 'tagged' "חשמל" %}" class="nav-link link-dark">
+            מוצרי חשמל
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
-            Dashboard
+          <a href="{%url 'tagged' "ריהוט" %}" class="nav-link link-dark">
+            רהיטים
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
-            Orders
+          <a href="{%url 'tagged' "מטרייה" %}" class="nav-link link-dark">
+            מטריות
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
-            Products
+          <a href="{%url 'tagged' "אדום" %}" class="nav-link link-dark">
+            פריטים אדומים
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-            Customers
+          <a href="{%url 'tagged' "שחור" %}" class="nav-link link-dark">
+            פריטים שחורים
           </a>
         </li>
       </ul>
       <hr>
-      <div class="dropdown">
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="https://github.com/mdo.png" alt="" class="rounded-circle me-2" width="32" height="32">
-          <strong>mdo</strong>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
-          <li><a class="dropdown-item" href="#">New project...</a></li>
-          <li><a class="dropdown-item" href="#">Settings</a></li>
-          <li><a class="dropdown-item" href="#">Profile</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
-        </ul>
-      </div>
     </div>
+  </div>
+  <div class="col-8">  
+    <div class="items" style="margin-right: 5%; margin-top: 3em; direction: rtl;">
+      {%if items%}
+      <div class="row">
+        {%for item in items%}
+        <div class="card" style="width: 16rem; margin-left: 2em; border: 1px solid black; margin-bottom: 3em;">
+          <img class="card-img-top" src="{{item.picture.url}}" alt="Card image cap" style="border-bottom: 1px solid black;">
+          <div class="card-body">
+            <h5 class="card-title">{{item.name}}</h5>
+            <p class="card-text">{{item.description}}</p>
+            <p class="card-text">{{item.time_added}}</p>
+            <p class="card-text">{{item.price}}$</p>
+            {%for tag in item.tags.all%}
+            <a href={% url 'tagged' tag %}><span class="badge bg-success">{{tag}}</span></a>
+            {%endfor%}
+            <br>
+            <a href="#" class="btn btn-primary" style="margin-top: 1em;"><span>ראו עוד</a>
+          </div>
+        </div>
+        {%endfor%}
+        <div>      
+    </div>
+    {%endif%}
+  </div>
+</div>
+
 
     
     <script

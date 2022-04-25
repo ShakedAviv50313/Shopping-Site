@@ -10,7 +10,7 @@ class Item(models.Model):
     price = models.IntegerField(default=30)
     time_added = models.DateTimeField(auto_now_add=True)
     picture = models.ImageField(
-        upload_to='static/images', default='satic/image/no_pic.png')
+        upload_to='media', default='no_pic.png')
 
     def __str__(self):
         return self.name
